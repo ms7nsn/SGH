@@ -73,11 +73,11 @@ fun StoreBar(
             Switch(checked = s.saveOn[tab], onCheckedChange = { s.setSave(tab, it) })
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(t("Save data", "Enregistrer les données"), fontWeight = FontWeight.Bold)
+                Text(t("Save data", "Enregistrer les donn茅es"), fontWeight = FontWeight.Bold)
                 Text(hint, color = Dim, style = MaterialTheme.typography.bodySmall)
             }
             extra()
-            IconButton(onClick = onChart) { Text("\uD83D\uDCC8\uFE0F", fontSize = 22.sp) }
+            IconButton(onClick = onChart) { Text("馃搱", fontSize = 22.sp) }
         }
     }
 }
@@ -103,8 +103,8 @@ private fun statsLine(data: List<Agg>, dec: Int, unit: String): String {
         mx = max(mx, a.max)
     }
     return t(
-        "$n samples · avg ${fmt(sum / n, dec)} · min ${fmt(mn, dec)} · max ${fmt(mx, dec)} $unit",
-        "$n mesures · moy ${fmt(sum / n, dec)} · min ${fmt(mn, dec)} · max ${fmt(mx, dec)} $unit"
+        "$n samples 路 avg ${fmt(sum / n, dec)} 路 min ${fmt(mn, dec)} 路 max ${fmt(mx, dec)} $unit",
+        "$n mesures 路 moy ${fmt(sum / n, dec)} 路 min ${fmt(mn, dec)} 路 max ${fmt(mx, dec)} $unit"
     )
 }
 
@@ -212,7 +212,7 @@ fun HistoryDialog(
             FilterChip(selected = week, onClick = { week = true }, label = { Text(t("Week", "Semaine")) })
         }
         Text(
-            if (week) t("Last 7 days", "7 derniers jours") else t("Last 24 hours", "24 dernières heures"),
+            if (week) t("Last 7 days", "7 derniers jours") else t("Last 24 hours", "24 derni猫res heures"),
             color = Dim, style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(top = 4.dp)
         )
@@ -231,7 +231,7 @@ fun HistoryDialog(
                 Text(
                     t(
                         "No data in this period. Turn on Save data in the tab.",
-                        "Aucune donnée sur cette période. Active Enregistrer les données dans l'onglet."
+                        "Aucune donn茅e sur cette p茅riode. Active Enregistrer les donn茅es dans l'onglet."
                     ),
                     color = Dim, style = MaterialTheme.typography.bodySmall
                 )
@@ -243,7 +243,7 @@ fun HistoryDialog(
                     t(
                         "Latest: ${fmt(last.avg, sp.decimals)} ${sp.unit} at " +
                             SimpleDateFormat("dd/MM HH:mm", appLocale()).format(Date(last.t)),
-                        "Dernier : ${fmt(last.avg, sp.decimals)} ${sp.unit} à " +
+                        "Dernier : ${fmt(last.avg, sp.decimals)} ${sp.unit} 脿 " +
                             SimpleDateFormat("dd/MM HH:mm", appLocale()).format(Date(last.t))
                     ),
                     color = Dim, style = MaterialTheme.typography.bodySmall
@@ -253,14 +253,14 @@ fun HistoryDialog(
         extra(since)
         Spacer(Modifier.height(12.dp))
         OutlinedButton(onClick = { confirm = true }) {
-            Text(t("Delete saved data of this tab", "Supprimer les données enregistrées de cet onglet"))
+            Text(t("Delete saved data of this tab", "Supprimer les donn茅es enregistr茅es de cet onglet"))
         }
     }
     if (confirm) {
         AlertDialog(
             onDismissRequest = { confirm = false },
-            title = { Text(t("Delete data?", "Supprimer les données ?")) },
-            text = { Text(t("All saved data of this tab will be deleted.", "Toutes les données enregistrées de cet onglet seront supprimées.")) },
+            title = { Text(t("Delete data?", "Supprimer les donn茅es ?")) },
+            text = { Text(t("All saved data of this tab will be deleted.", "Toutes les donn茅es enregistr茅es de cet onglet seront supprim茅es.")) },
             confirmButton = {
                 TextButton(onClick = { App.store.clear(tabKey); confirm = false; nonce++ }) {
                     Text(t("Delete", "Supprimer"))
@@ -323,9 +323,9 @@ fun LocScatter(rows: List<Rec>) {
         drawCircle(acc, 10.dp.toPx(), px(pts.first()), style = Stroke(3f))
         lab.textAlign = android.graphics.Paint.Align.LEFT
         lab.color = dim.toArgb()
-        cv.drawText("N ↑", 8.dp.toPx(), 18.dp.toPx(), lab)
+        cv.drawText("N 鈫�", 8.dp.toPx(), 18.dp.toPx(), lab)
         cv.drawText(
-            t("Span ≈ ", "Étendue ≈ ") + spanText(max(xr, yr) * ky),
+            t("Span 鈮� ", "脡tendue 鈮� ") + spanText(max(xr, yr) * ky),
             8.dp.toPx(), size.height - 8.dp.toPx(), lab
         )
     }
@@ -344,19 +344,19 @@ fun LocationsDialog(onClose: () -> Unit) {
     var nonce by remember { mutableIntStateOf(0) }
     var confirm by remember { mutableStateOf(false) }
     val rows = remember(nonce) { App.store.rows("gps", "loc", 300) }
-    SghDialog(t("Saved locations", "Positions enregistrées"), onClose) {
+    SghDialog(t("Saved locations", "Positions enregistr茅es"), onClose) {
         if (rows.isEmpty()) {
             Text(
                 t(
                     "No saved location yet. Use Save here, or turn on Save data to log your position while this tab is open.",
-                    "Aucune position enregistrée. Utilise Enregistrer ici, ou active Enregistrer les données pour mémoriser ta position tant que cet onglet est ouvert."
+                    "Aucune position enregistr茅e. Utilise Enregistrer ici, ou active Enregistrer les donn茅es pour m茅moriser ta position tant que cet onglet est ouvert."
                 ),
                 color = Dim
             )
         } else {
             Text(
                 t("${rows.size} saved position(s). Named points are big, the ring is the latest.",
-                    "${rows.size} position(s) enregistrée(s). Les points nommés sont gros, l'anneau est le plus récent."),
+                    "${rows.size} position(s) enregistr茅e(s). Les points nomm茅s sont gros, l'anneau est le plus r茅cent."),
                 color = Dim, style = MaterialTheme.typography.bodySmall
             )
             Spacer(Modifier.height(8.dp))
@@ -369,14 +369,14 @@ fun LocationsDialog(onClose: () -> Unit) {
                 Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
                         Text(
-                            r.label.ifEmpty { t("Logged position", "Position relevée") },
+                            r.label.ifEmpty { t("Logged position", "Position relev茅e") },
                             fontWeight = FontWeight.Bold
                         )
-                        Text("${fmt(lat, 5)}°, ${fmt(lon, 5)}°", style = MaterialTheme.typography.bodySmall)
+                        Text("${fmt(lat, 5)}掳, ${fmt(lon, 5)}掳", style = MaterialTheme.typography.bodySmall)
                         Text(
                             f.format(Date(r.ts)) +
-                                (r.c?.let { " · ${fmt(it, 0)} m" } ?: "") +
-                                (r.d?.let { " · ±${fmt(it, 0)} m" } ?: ""),
+                                (r.c?.let { " 路 ${fmt(it, 0)} m" } ?: "") +
+                                (r.d?.let { " 路 卤${fmt(it, 0)} m" } ?: ""),
                             color = Dim, style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -387,7 +387,7 @@ fun LocationsDialog(onClose: () -> Unit) {
             }
             if (rows.size > 100) {
                 Text(
-                    t("Showing the latest 100 in the list.", "Les 100 plus récentes sont listées."),
+                    t("Showing the latest 100 in the list.", "Les 100 plus r茅centes sont list茅es."),
                     color = Dim, style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -420,9 +420,9 @@ fun SettingsScreen(onBack: () -> Unit) {
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            TextButton(onClick = onBack) { Text("←  " + t("Back", "Retour")) }
+            TextButton(onClick = onBack) { Text("鈫�  " + t("Back", "Retour")) }
             Text(
-                t("Settings", "Réglages"), Modifier.weight(1f),
+                t("Settings", "R茅glages"), Modifier.weight(1f),
                 fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge
             )
         }
@@ -437,26 +437,26 @@ fun SettingsScreen(onBack: () -> Unit) {
                 }
             }
             Text(
-                t("At least one tab stays on.", "Au moins un onglet reste activé."),
+                t("At least one tab stays on.", "Au moins un onglet reste activ茅."),
                 color = Dim, style = MaterialTheme.typography.bodySmall
             )
         }
         Panel {
-            Text(t("Theme", "Thème"), color = Accent, style = MaterialTheme.typography.labelLarge)
+            Text(t("Theme", "Th猫me"), color = Accent, style = MaterialTheme.typography.labelLarge)
             val opts = listOf(
-                0 to t("System", "Système"),
+                0 to t("System", "Syst猫me"),
                 1 to t("Light", "Clair"),
                 2 to t("Dark", "Sombre")
             )
             for ((v, name) in opts) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    RadioButton(selected = s.theme == v, onClick = { s.setTheme(v) })
+                    RadioButton(selected = s.theme == v, onClick = { s.updateTheme(v) })
                     Text(name)
                 }
             }
             Text(
                 t("Colours follow your wallpaper (Material You) on Android 12 and later.",
-                    "Les couleurs suivent ton fond d'écran (Material You) sur Android 12 et plus."),
+                    "Les couleurs suivent ton fond d'茅cran (Material You) sur Android 12 et plus."),
                 color = Dim, style = MaterialTheme.typography.bodySmall
             )
         }
@@ -468,20 +468,20 @@ fun SettingsScreen(onBack: () -> Unit) {
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 RadioButton(selected = Lang.fr, onClick = { s.setLang(true) })
-                Text("Français")
+                Text("Fran莽ais")
             }
         }
         Panel {
-            Text(t("Saved data", "Données enregistrées"), color = Accent, style = MaterialTheme.typography.labelLarge)
+            Text(t("Saved data", "Donn茅es enregistr茅es"), color = Accent, style = MaterialTheme.typography.labelLarge)
             for (i in TabIds) {
                 val n = remember(nonce) { App.store.count(TabKeys[i]) }
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text("${tabName(i)} · $n", Modifier.weight(1f))
+                    Text("${tabName(i)} 路 $n", Modifier.weight(1f))
                     TextButton(onClick = { clearTab = i }, enabled = n > 0) { Text(t("Clear", "Effacer")) }
                 }
             }
             Text(
-                t("Data older than 60 days is removed automatically.", "Les données de plus de 60 jours sont supprimées automatiquement."),
+                t("Data older than 60 days is removed automatically.", "Les donn茅es de plus de 60 jours sont supprim茅es automatiquement."),
                 color = Dim, style = MaterialTheme.typography.bodySmall
             )
         }
@@ -489,7 +489,7 @@ fun SettingsScreen(onBack: () -> Unit) {
     if (clearTab >= 0) {
         AlertDialog(
             onDismissRequest = { clearTab = -1 },
-            title = { Text(t("Delete data?", "Supprimer les données ?")) },
+            title = { Text(t("Delete data?", "Supprimer les donn茅es ?")) },
             text = { Text(tabName(clearTab)) },
             confirmButton = {
                 TextButton(onClick = { App.store.clear(TabKeys[clearTab]); clearTab = -1; nonce++ }) {
