@@ -38,7 +38,7 @@ class Settings(ctx: Context) {
         Lang.fr = if (saved != null) saved == "fr" else Locale.getDefault().language == "fr"
     }
 
-    fun setTheme(v: Int) {
+    fun updateTheme(v: Int) {
         theme = v
         prefs.edit().putInt("theme", v).apply()
     }
